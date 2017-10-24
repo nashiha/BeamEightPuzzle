@@ -1,5 +1,7 @@
 import java.util.*;
 
+import static java.lang.Math.abs;
+
 /**
  * Created by Shiha on 10/24/2017.
  */
@@ -149,6 +151,32 @@ public class Puzzle
         }
     }
 
+    public int getTile (int i, int j){
+        return this.puzzle[i][j];
+    }
+
+    public int getHeuristic (){
+        int n = 0;
+
+        for ( int i = 0; i < 3; i ++)
+            for (int j = 0; j < 3; j ++)
+                n += getTileDistance(i,j);
+
+        return n;
+    }
+
+    public int getTileDistance (int i, int j){
+        int tile = this.puzzle[i][j];
+
+        if (tile == -1)
+            return 0;
+
+        int rowDifference = abs (i-(tile-1)/3);
+        int columnDifference = abs (j-(tile-1)%3);
+
+        return rowDifference+columnDifference;
+    }
+
     public String toString()
     {
         String s;
@@ -177,6 +205,7 @@ public class Puzzle
             puzzleList[i] = new Puzzle();
             puzzleList[i].puzzleGenerator();
             System.out.println( "Puzzle " + (i + 1) + ":\n" + puzzleList[i].toString());
+            System.out.println( "Heuristic is:\n" + puzzleList[i].getHeuristic() + "\n\n");
         }
 
     }

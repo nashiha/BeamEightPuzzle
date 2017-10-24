@@ -192,8 +192,7 @@ public class Puzzle
         //s = s + "\n";
         return s;
     }
-    //for testing purposes
-    //will provide listings of program
+
     public static void main( String[] args)
     {
         Puzzle goalPuzzle;

@@ -41,7 +41,13 @@ public class PuzzleGUI extends JPanel{
             }
             for( int i = 0; i < 9; i++)
             {
-                (getButtons().get(i)).setText( "" + temp.get(i));
+                if( temp.get(i) != -1) {
+                    (getButtons().get(i)).setText("" + temp.get(i));
+                }
+                else
+                {
+                    getButtons().get(i).setText(" ");
+                }
             }
     }
     public ArrayList<JButton> getButtons()

@@ -27,6 +27,9 @@ public class PuzzleTree {
     // ---------CALCULATING METHODS---------------
     public void generateTree (){
         generateTreeHelper(this.root);
+
+        root.generateNextMoves();
+
     }
 
     public void generateTreeHelper (Puzzle node){

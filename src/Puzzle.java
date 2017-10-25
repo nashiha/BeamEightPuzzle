@@ -27,7 +27,6 @@ public class Puzzle
         }
         this.x = -1;
         this.y = -1;
-        //this.childNum = 0;
         initializeChildren();
     }
     Puzzle(int [][] array, int x, int y){
@@ -35,7 +34,6 @@ public class Puzzle
         this.x = x;
         this.y = y;
         this.parent = null;
-        //this.childNum = 0;
         initializeChildren();
     }
     Puzzle(int [][] array, int x, int y, Puzzle parent){
@@ -43,7 +41,6 @@ public class Puzzle
         this.x = x;
         this.y = y;
         this.parent = parent;
-        //this.childNum = 0;
         initializeChildren();
     }
 
@@ -57,7 +54,7 @@ public class Puzzle
         this.puzzle[i][j] = t;
     }
     public void setParent (Puzzle parent){ this.parent = parent; }
-   // public void setWidth (int w) { this.w = w; }
+    public void setChildren (Puzzle[] children) {this.children = children; }
     public void addChild (Puzzle child){
         if (getChildNum() < 4) {
             int i = 0;
@@ -133,7 +130,7 @@ public class Puzzle
                 //0 means up, 1 means down, 2 means right, 3 means left
                 if (randomInt == 0) //go up
                 {
-                    if (lastMove == 1) {
+                    if (lastMove == 1 ) {
                         i--;
                     } else if (!(this.goUp())) {
                         i--;
@@ -226,24 +223,6 @@ public class Puzzle
             this.addChild(right);
             System.out.println( "\nChild Right Created\n");
         }
-
-
-        /*Puzzle up = this;
-        up.goUp();
-        this.addChild(up);
-
-        Puzzle down = this;
-        down.goDown();
-        this.addChild(down);
-
-        Puzzle left = this;
-        left.goLeft();
-        this.addChild(left);
-
-        Puzzle right = this;
-        right.goRight();
-        this.addChild(right);
-        */
     }
 
     public void copy (Puzzle p) {

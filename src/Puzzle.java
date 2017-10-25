@@ -12,6 +12,7 @@ public class Puzzle
     private int y;
     private int[][] puzzle;
     private ArrayList<Puzzle> stepsToGoal;
+
     private Puzzle parent;
     private Puzzle[] children;
 

@@ -13,24 +13,35 @@ public class Puzzle
     Puzzle()
     {
         this.puzzle = new int[3][3];
-        //Create Goal Puzzle
-        puzzle[0][0] = 1;
-        puzzle[0][1] = 2;
-        puzzle[0][2] = 3;
-        puzzle[1][0] = 4;
-        puzzle[1][1] = 5;
-        puzzle[1][2] = 6;
-        puzzle[2][0] = 7;
-        puzzle[2][1] = 8;
-        puzzle[2][2] = -1; //-1 indicates empty box
-        //Puzzle looks like this:
-        // [1][2][3]
-        // [4][5][6]
-        // [7][8][-1]
+        for( int i = 0; i < 3; i++)
+        {
+            for( int j = 0; j < 3; j++)
+            {
+                this.puzzle[i][j] = -1;
+            }
+        }
     }
     Puzzle( int[][] newpuzzle)
     {
         this.puzzle = newpuzzle;
+    }
+    public boolean makeGoal()
+    {
+        //Create Goal Puzzle
+        this.puzzle[0][0] = 1;
+        this.puzzle[0][1] = 2;
+        this.puzzle[0][2] = 3;
+        this.puzzle[1][0] = 4;
+        this.puzzle[1][1] = 5;
+        this.puzzle[1][2] = 6;
+        this.puzzle[2][0] = 7;
+        this.puzzle[2][1] = 8;
+        this.puzzle[2][2] = -1; //-1 indicates empty box
+        return true;
+        //Puzzle looks like this:
+        // [1][2][3]
+        // [4][5][6]
+        // [7][8][-1]
     }
 
     public int[][] getPuzzleArr()
@@ -91,65 +102,55 @@ public class Puzzle
     }
     public void puzzleGenerator()
     {
-        Random randomGenerator = new Random();
-        int lastMove = -1;
-        for( int i = 0; i < 50; i++)
+        if( this.makeGoal()) {
+            Random randomGenerator = new Random();
+            int lastMove = -1;
+            for (int i = 0; i < 50; i++) {
+                int randomInt = randomGenerator.nextInt(4);
+                int temp = 0;
+                //0 means up, 1 means down, 2 means right, 3 means left
+                if (randomInt == 0) //go up
+                {
+                    if (lastMove == 1) {
+                        i--;
+                    } else if (!(this.goUp())) {
+                        i--;
+                    }
+                } else if (randomInt == 1) //go down
+                {
+                    if (lastMove == 0) {
+                        i--;
+                    } else if (!this.goDown()) {
+                        i--;
+                    }
+                } else if (randomInt == 2)  //go right
+                {
+                    if (lastMove == 3) {
+                        i--;
+                    } else if (!this.goRight()) {
+                        i--;
+                    }
+                } else if (randomInt == 3) //go left
+                {
+                    if (lastMove == 2) {
+                        i--;
+                    } else if (!this.goLeft()) {
+                        i--;
+                    }
+                } else {
+                    System.out.println("It can't go there!");
+                }
+                lastMove = randomInt;
+                //System.out.println( "i:" + i + "\n" + this.toString());
+            }
+        }
+        else
         {
-            int randomInt = randomGenerator.nextInt(4);
-            int temp = 0;
-            //0 means up, 1 means down, 2 means right, 3 means left
-            if( randomInt == 0) //go up
-            {
-                if( lastMove == 1 )
-                {
-                    i--;
-                }
-                else if ( !(this.goUp()))
-                {
-                    i--;
-                }
-            }
-            else if( randomInt == 1) //go down
-            {
-                if( lastMove == 0 )
-                {
-                    i--;
-                }
-                else if ( !this.goDown())
-                {
-                    i--;
-                }
-            }
-            else if( randomInt == 2)  //go right
-            {
-                if( lastMove == 3 )
-                {
-                    i--;
-                }
-                else if( !this.goRight())
-                {
-                    i--;
-                }
-            }
-            else if( randomInt == 3) //go left
-            {
-                if( lastMove == 2 )
-                {
-                    i--;
-                }
-                else if( !this.goLeft())
-                {
-                    i--;
-                }
-            }
-            else
-            {
-                System.out.println( "It can't go there!");
-            }
-            lastMove = randomInt;
-            //System.out.println( "i:" + i + "\n" + this.toString());
+            System.out.println( "Puzzle does not start from goal state. Puzzle cannot be guaranteed to be solved if" +
+                    " created.");
         }
     }
+
 
     public int getTile (int i, int j){
         return this.puzzle[i][j];
@@ -198,6 +199,8 @@ public class Puzzle
     {
         Puzzle goalPuzzle;
         goalPuzzle = new Puzzle();
+        goalPuzzle.makeGoal();
+
         System.out.println( "Goal state:\n" + goalPuzzle.toString());
         Puzzle[] puzzleList = new Puzzle[10];
         for( int i = 0; i < 10; i++)
@@ -205,7 +208,6 @@ public class Puzzle
             puzzleList[i] = new Puzzle();
             puzzleList[i].puzzleGenerator();
             System.out.println( "Puzzle " + (i + 1) + ":\n" + puzzleList[i].toString());
-            System.out.println( "Heuristic is:\n" + puzzleList[i].getHeuristic() + "\n\n");
         }
 
     }

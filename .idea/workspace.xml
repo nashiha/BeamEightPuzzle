@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="96a90d90-c58f-4257-99c0-2fda153719e3" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/HW2/Puzzle.class" afterPath="$PROJECT_DIR$/out/production/HW2/Puzzle.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/HW2/PuzzleGUI$1.class" afterPath="$PROJECT_DIR$/out/production/HW2/PuzzleGUI$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/HW2/PuzzleGUI.class" afterPath="$PROJECT_DIR$/out/production/HW2/PuzzleGUI.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Puzzle.java" afterPath="$PROJECT_DIR$/src/Puzzle.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/PuzzleGUI.java" afterPath="$PROJECT_DIR$/src/PuzzleGUI.java" />
-    </list>
+    <list default="true" id="96a90d90-c58f-4257-99c0-2fda153719e3" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -23,7 +16,7 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Puzzle.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Puzzle.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Puzzle.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-2">
@@ -35,16 +28,6 @@
                 <element signature="e#4516#4517#0" expanded="true" />
                 <element signature="e#6009#6017#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EventDispatchThread.java" pinned="false" current-in-tab="true">
-        <entry file="jar://C:/Program Files (x86)/Java/jdk1.8.0_111/src.zip!/java/awt/EventDispatchThread.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="25">
-              <caret line="115" column="0" lean-forward="false" selection-start-line="115" selection-start-column="0" selection-end-line="115" selection-end-column="0" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -500,6 +483,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://C:/Program Files (x86)/Java/jdk1.8.0_111/src.zip!/java/awt/EventDispatchThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="348">
+          <caret line="213" column="29" lean-forward="true" selection-start-line="211" selection-start-column="60" selection-end-line="213" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Puzzle.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2">
@@ -511,14 +502,6 @@
             <element signature="e#4516#4517#0" expanded="true" />
             <element signature="e#6009#6017#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files (x86)/Java/jdk1.8.0_111/src.zip!/java/awt/EventDispatchThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="25">
-          <caret line="115" column="0" lean-forward="false" selection-start-line="115" selection-start-column="0" selection-end-line="115" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>

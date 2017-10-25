@@ -200,7 +200,7 @@ public class Puzzle
     }
     //for testing purposes
     //will provide listings of program
-    public static void main( String[] args)
+/*    public static void main( String[] args)
     {
         Puzzle goalPuzzle;
         goalPuzzle = new Puzzle();
@@ -215,5 +215,5 @@ public class Puzzle
             System.out.println( "Puzzle " + (i + 1) + ":\n" + puzzleList[i].toString());
         }
 
-    }
+    }*/
 }

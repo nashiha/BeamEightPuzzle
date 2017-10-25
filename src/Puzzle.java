@@ -8,10 +8,14 @@ import static java.lang.Math.abs;
  */
 public class Puzzle
 {
-    int x = 2;
-    int y = 2;
+    private int x;
+    private int y;
     private int[][] puzzle;
     private ArrayList<Puzzle> stepsToGoal;
+    private Puzzle parent;
+    private Puzzle[] children;
+
+    // --------------CONSTRUCTORS---------------
     Puzzle()
     {
         this.puzzle = new int[3][3];
@@ -23,11 +27,81 @@ public class Puzzle
             }
         }
         stepsToGoal = new ArrayList<Puzzle>();
+
+        this.x = -1;
+        this.y = -1;
+
+        initializeChildren();
     }
-    Puzzle( int[][] newpuzzle)
+    Puzzle(int [][] array, int x, int y){
+        this.puzzle = array;
+        this.x = x;
+        this.y = y;
+        this.parent = null;
+        initializeChildren();
+    }
+    Puzzle(int [][] array, int x, int y, Puzzle parent){
+        this.puzzle = array;
+        this.x = x;
+        this.y = y;
+        this.parent = parent;
+        initializeChildren();
+    }
+
+    // -----------------SETTERS-------------------
+    public void setPuzzleArr( int[][] newPuzzle)
     {
-        this.puzzle = newpuzzle;
+        this.puzzle = newPuzzle;
     }
+    public void setTile( int i, int j, int t)
+    {
+        this.puzzle[i][j] = t;
+    }
+    public void setParent (Puzzle parent){ this.parent = parent; }
+
+    public void addChild (Puzzle child){
+        if (getChildNum() < 4) {
+            int i = 0;
+            while (this.children[i] != null) i++;
+
+            this.children[i] = child;
+            this.children[i].setParent(this);
+        }
+    }
+    public void initializeChildren (){
+        this.children = new Puzzle[4];
+        for (int i = 0; i < 4; i ++){
+            this.children[i] = null;
+        }
+    }
+    // -----------------GETTERS-------------------
+    public int[][] getPuzzleArr()
+    {
+        return this.puzzle;
+    }
+    public int getTile (int i, int j)
+    {
+        return this.puzzle[i][j];
+    }
+    public Puzzle getParent () { return this.parent; }
+    public Puzzle[] getChildren() { return this.children;}
+    public Puzzle getChild (int i) {
+        if ( i < getChildNum() )
+            return this.children[i];
+
+        return null;
+    }
+    public int getChildNum (){
+        if (this.children==null)
+            return 0;
+        int i = 0;
+        while (i < 4 && this.children[i] != null) i++;
+        return i;
+    }
+    public int getX (){ return this.x; }
+    public int getY (){ return this.y; }
+
+    // ---------CALCULATING METHODS---------------
     public boolean makeGoal()
     {
         //Create Goal Puzzle
@@ -40,6 +114,8 @@ public class Puzzle
         this.puzzle[2][0] = 7;
         this.puzzle[2][1] = 8;
         this.puzzle[2][2] = -1; //-1 indicates empty box
+        this.x = 2;
+        this.y = 2;
         return true;
         //Puzzle looks like this:
         // [1][2][3]
@@ -47,64 +123,7 @@ public class Puzzle
         // [7][8][-1]
     }
 
-    public int[][] getPuzzleArr()
-    {
-        return this.puzzle;
-    }
-    public void setPuzzleArr( int[][] newPuzzle)
-    {
-        this.puzzle = newPuzzle;
-    }
-    public boolean goUp()
-    {
-        if( y == 0)
-        {
-            return false;
-        }
-        int temp = this.puzzle[y - 1][x];
-        this.puzzle[y - 1][x] = -1;
-        this.puzzle[y][x] = temp;
-        y = y - 1;
-        return true;
-    }
-    public boolean goDown()
-    {
-        if( y == 2)
-        {
-            return false;
-        }
-        int temp = this.puzzle[y + 1][x];
-        this.puzzle[y + 1][x] = -1;
-        this.puzzle[y][x] = temp;
-        y = y + 1;
-        return true;
-    }
-    public boolean goRight()
-    {
-        if( x == 2)
-        {
-            return false;
-        }
-        int temp = this.puzzle[y][x + 1];
-        this.puzzle[y][x + 1] = -1;
-        this.puzzle[y][x] = temp;
-        x = x + 1;
-        return true;
-    }
-    public boolean goLeft()
-    {
-        if( x == 0)
-        {
-            return false;
-        }
-        int temp = this.puzzle[y][x - 1];
-        this.puzzle[y][x - 1] = -1;
-        this.puzzle[y][x] = temp;
-        x = x - 1;
-        return true;
-    }
-    public ArrayList<Puzzle> puzzleGenerator()
-    {
+    public ArrayList<Puzzle> puzzleGenerator(){
         //Puzzle myPuzzle = new Puzzle();
         if( this.makeGoal()) {
             Random randomGenerator = new Random();
@@ -161,34 +180,12 @@ public class Puzzle
         }
         return stepsToGoal;
     }
-    public int getX()
-    {
-        return this.x;
-    }
-    public int getY()
-    {
-        return this.y;
-    }
-    public void copy (Puzzle p) {
-        this.x = p.getX();
-        this.y = p.getY();
-        for (int i = 0; i < 3; i ++){
-            for (int j = 0; j < 3; j ++)
-                this.puzzle[i][j] = p.getTile(i,j);
-        }
-        //this.children = p.getChildren();
-        //this.parent = p.getParent();
-    }
-    public int getTile (int i, int j)
-    {
-        return this.puzzle[i][j];
-    }
-    public void setTile( int i, int j, int t)
-    {
-        this.puzzle[i][j] = t;
-    }
+
 
     public int getHeuristic (){
+        if (this == null){
+            return 1000;
+        }
         int n = 0;
 
         for ( int i = 0; i < 3; i ++)
@@ -210,8 +207,101 @@ public class Puzzle
         return rowDifference+columnDifference;
     }
 
+    public void generateNextMoves (){
+
+        Puzzle up = new Puzzle();
+        up.copy(this);
+        if (up.goUp()){
+            this.addChild(up);
+            System.out.println( "\nChild Up Created\n");
+        }
+
+        Puzzle down = new Puzzle();
+        down.copy(this);
+        if (down.goDown()){
+            this.addChild(down);
+            System.out.println( "\nChild Down Created\n");
+        }
+
+        Puzzle left = new Puzzle();
+        left.copy(this);
+        if (left.goLeft()){
+            this.addChild(left);
+            System.out.println( "\nChild Left Created\n");
+        }
+        Puzzle right = new Puzzle();
+        right.copy(this);
+        if (right.goRight()){
+            this.addChild(right);
+            System.out.println( "\nChild Right Created\n");
+        }
+    }
+
+    public void copy (Puzzle p) {
+        this.x = p.getX();
+        this.y = p.getY();
+        for (int i = 0; i < 3; i ++){
+            for (int j = 0; j < 3; j ++)
+                this.puzzle[i][j] = p.getTile(i,j);
+        }
+        //this.children = p.getChildren();
+        //this.parent = p.getParent();
+    }
+    // -----------------MOVES-------------------
+    public boolean goUp()
+    {
+        if( y == 0)
+        {
+            return false;
+        }
+        int temp = this.puzzle[y - 1][x];
+        this.puzzle[y - 1][x] = -1;
+        this.puzzle[y][x] = temp;
+        y = y - 1;
+        return true;
+    }
+    public boolean goDown()
+    {
+        if( y == 2)
+        {
+            return false;
+        }
+        int temp = this.puzzle[y + 1][x];
+        this.puzzle[y + 1][x] = -1;
+        this.puzzle[y][x] = temp;
+        y = y + 1;
+        return true;
+    }
+    public boolean goRight()
+    {
+        if( x == 2)
+        {
+            return false;
+        }
+        int temp = this.puzzle[y][x + 1];
+        this.puzzle[y][x + 1] = -1;
+        this.puzzle[y][x] = temp;
+        x = x + 1;
+        return true;
+    }
+    public boolean goLeft()
+    {
+        if( x == 0)
+        {
+            return false;
+        }
+        int temp = this.puzzle[y][x - 1];
+        this.puzzle[y][x - 1] = -1;
+        this.puzzle[y][x] = temp;
+        x = x - 1;
+        return true;
+    }
+
+    // -----------------PRINT-------------------
     public String toString()
     {
+        if (this == null)
+            return "";
         String s;
         s = "";
         for (int i = 0; i < 3; i++)
@@ -225,6 +315,8 @@ public class Puzzle
         //s = s + "\n";
         return s;
     }
+
+    // -----------------MAIN-------------------
     //for testing purposes
     //will provide listings of program
     public static void main( String[] args)
@@ -254,6 +346,24 @@ public class Puzzle
         {
             System.out.println( i + ":\n" + list.get(i).toString());
         }
+
+        ////////////////////////////
+
+        System.out.println( "Now work with individual puzzle:\n");
+
+        Puzzle p = new Puzzle();
+        p.copy(puzzleList[9]);
+        Puzzle t = new Puzzle();
+        t.copy(p);
+        p.generateNextMoves();
+
+        Puzzle[] children = p.getChildren();
+
+        System.out.println( "Puzzle " + ":\n" + p.toString());
+
+        for ( int i = 0; i < p.getChildNum(); i++ )
+            System.out.println( "Child " + (i + 1) + ":\n" + children[i].toString());
+
 
     }
 }

@@ -157,8 +157,13 @@ public class Puzzle
     }
 
 
-    public int getTile (int i, int j){
+    public int getTile (int i, int j)
+    {
         return this.puzzle[i][j];
+    }
+    public void setTile( int i, int j, int t)
+    {
+        this.puzzle[i][j] = t;
     }
 
     public int getHeuristic (){

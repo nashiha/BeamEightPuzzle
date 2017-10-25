@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.*;
 
 import static java.lang.Math.abs;
@@ -10,6 +11,7 @@ public class Puzzle
     int x = 2;
     int y = 2;
     private int[][] puzzle;
+    private ArrayList<Puzzle> stepsToGoal;
     Puzzle()
     {
         this.puzzle = new int[3][3];
@@ -20,6 +22,7 @@ public class Puzzle
                 this.puzzle[i][j] = -1;
             }
         }
+        stepsToGoal = new ArrayList<Puzzle>();
     }
     Puzzle( int[][] newpuzzle)
     {
@@ -100,8 +103,9 @@ public class Puzzle
         x = x - 1;
         return true;
     }
-    public void puzzleGenerator()
+    public ArrayList<Puzzle> puzzleGenerator()
     {
+        //Puzzle myPuzzle = new Puzzle();
         if( this.makeGoal()) {
             Random randomGenerator = new Random();
             int lastMove = -1;
@@ -140,8 +144,14 @@ public class Puzzle
                 } else {
                     System.out.println("It can't go there!");
                 }
+                if( (lastMove + randomInt) != 1 && (lastMove + randomInt) != 5)
+                {
+                    Puzzle newPuzzle = new Puzzle();
+                    newPuzzle.copy( this);
+                    stepsToGoal.add(newPuzzle);
+                }
                 lastMove = randomInt;
-                //System.out.println( "i:" + i + "\n" + this.toString());
+                //System.out.println( "i:" + i + "\n" + stepsToGoal.get(i).toString());
             }
         }
         else
@@ -149,9 +159,26 @@ public class Puzzle
             System.out.println( "Puzzle does not start from goal state. Puzzle cannot be guaranteed to be solved if" +
                     " created.");
         }
+        return stepsToGoal;
     }
-
-
+    public int getX()
+    {
+        return this.x;
+    }
+    public int getY()
+    {
+        return this.y;
+    }
+    public void copy (Puzzle p) {
+        this.x = p.getX();
+        this.y = p.getY();
+        for (int i = 0; i < 3; i ++){
+            for (int j = 0; j < 3; j ++)
+                this.puzzle[i][j] = p.getTile(i,j);
+        }
+        //this.children = p.getChildren();
+        //this.parent = p.getParent();
+    }
     public int getTile (int i, int j)
     {
         return this.puzzle[i][j];
@@ -200,9 +227,10 @@ public class Puzzle
     }
     //for testing purposes
     //will provide listings of program
-/*    public static void main( String[] args)
+    public static void main( String[] args)
     {
         Puzzle goalPuzzle;
+        ArrayList<Puzzle> list = new ArrayList<Puzzle>();
         goalPuzzle = new Puzzle();
         goalPuzzle.makeGoal();
 
@@ -210,10 +238,22 @@ public class Puzzle
         Puzzle[] puzzleList = new Puzzle[10];
         for( int i = 0; i < 10; i++)
         {
-            puzzleList[i] = new Puzzle();
-            puzzleList[i].puzzleGenerator();
-            System.out.println( "Puzzle " + (i + 1) + ":\n" + puzzleList[i].toString());
+            if( i == 2)
+            {
+                puzzleList[i] = new Puzzle();
+                list = puzzleList[i].puzzleGenerator();
+            }
+            else
+            {
+                puzzleList[i] = new Puzzle();
+                puzzleList[i].puzzleGenerator();
+            }
+            //System.out.println( "Puzzle " + (i + 1) + ":\n" + puzzleList[i].toString());
+        }
+        for( int i = 0; i < list.size(); i++)
+        {
+            System.out.println( i + ":\n" + list.get(i).toString());
         }
 
-    }*/
+    }
 }

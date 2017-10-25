@@ -8,6 +8,8 @@ import java.util.ArrayList;
  */
 public class PuzzleGUI extends JPanel{
     public Puzzle[] puzzleList = new Puzzle[10];
+    public ArrayList<Puzzle> stepsToGoal = new ArrayList<Puzzle>();
+    public int curr = 0;
     private JButton a1Button;
     private JButton a2Button;
     private JButton a3Button;
@@ -26,29 +28,56 @@ public class PuzzleGUI extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e)
             {
+
                 updateMatrix();
+                curr = curr + 1;
             }
         });
     }
     public void updateMatrix()
     {
-        int[][] puzzleList;
-        ArrayList<Integer> temp = new ArrayList<Integer>();
+        if(curr != getStepsToGoal().size()) {
+            ArrayList<Integer> temp = new ArrayList<Integer>();
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
-                    temp.add((this.puzzleList[2]).getPuzzleArr()[i][j]);
+                    temp.add(getStepsToGoal().get(curr).getPuzzleArr()[i][j]);
                 }
             }
-            for( int i = 0; i < 9; i++)
-            {
-                if( temp.get(i) != -1) {
+            for (int i = 0; i < 9; i++) {
+                if (temp.get(i) != -1) {
                     (getButtons().get(i)).setText("" + temp.get(i));
-                }
-                else
-                {
+                } else {
                     getButtons().get(i).setText(" ");
                 }
             }
+
+        }
+
+//        int[][] puzzleList;
+//        ArrayList<Integer> temp = new ArrayList<Integer>();
+//            for (int i = 0; i < 3; i++) {
+//                for (int j = 0; j < 3; j++) {
+//                    temp.add((this.puzzleList[2]).getPuzzleArr()[i][j]);
+//                }
+//            }
+//            for( int i = 0; i < 9; i++)
+//            {
+//                if( temp.get(i) != -1) {
+//                    (getButtons().get(i)).setText("" + temp.get(i));
+//                }
+//                else
+//                {
+//                    getButtons().get(i).setText(" ");
+//                }
+//            }
+    }
+    public void setStepsToGoal( ArrayList<Puzzle> stepsToGoal)
+    {
+        this.stepsToGoal = stepsToGoal;
+    }
+    public ArrayList<Puzzle> getStepsToGoal()
+    {
+        return this.stepsToGoal;
     }
     public ArrayList<JButton> getButtons()
     {
@@ -82,16 +111,25 @@ public class PuzzleGUI extends JPanel{
         goalPuzzle = new Puzzle();
         goalPuzzle.makeGoal();
         Puzzle[] puzzleList = new Puzzle[10];
+        ArrayList<Puzzle> stepstoGoal2 = new ArrayList<Puzzle>();
         System.out.println("Goal state:\n" + goalPuzzle.toString());
         for (int i = 0; i < 10; i++) {
             puzzleList[i] = new Puzzle();
-            puzzleList[i].puzzleGenerator();
+            if( i == 2)
+            {
+                stepstoGoal2 = puzzleList[i].puzzleGenerator();
+            }
+            else
+            {
+                puzzleList[i].puzzleGenerator();
+            }
             System.out.println("Puzzle " + (i + 1) + ":\n" + puzzleList[i].toString());
         }
         JFrame frame;
         frame = new JFrame( "8 Puzzle Game");
         PuzzleGUI game = new PuzzleGUI();
         game.setPuzzleList( puzzleList);
+        game.setStepsToGoal( stepstoGoal2);
         frame.setContentPane(game.gamePanel);
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE);
         frame.pack();

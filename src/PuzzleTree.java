@@ -26,7 +26,9 @@ public class PuzzleTree {
 
     // ---------CALCULATING METHODS---------------
     public void generateTree (){
-        generateTreeHelper(this.root);
+        //generateTreeHelper(this.root);
+        this.root.generateNextMoves();
+
     }
 
     public void generateTreeHelper (Puzzle node){
@@ -37,7 +39,7 @@ public class PuzzleTree {
 
         node.generateNextMoves();
 
-        for (int i = 0; i < 4; i ++)
+        for (int i = 0; i < node.getChildNum(); i ++)
             heuristics [i] = node.getChild(i).getHeuristic();
 
         // To Be Continued

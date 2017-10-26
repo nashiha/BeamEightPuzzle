@@ -117,7 +117,7 @@ public class PuzzleGUI extends JPanel{
             puzzleList[i] = new Puzzle();
             if( i == 2)
             {
-                stepstoGoal2 = puzzleList[i].puzzleGenerator();
+                //stepstoGoal2 = puzzleList[i].puzzleGenerator();
             }
             else
             {

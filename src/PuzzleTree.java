@@ -268,10 +268,11 @@ public class PuzzleTree {
             System.out.print (solution2.get(i).toString() + "\n");
         }
 
+        // Now run the program for 10 puzzles
+
         System.out.println("\n==================================================\n\n");
         System.out.println("NOW SOLVE FOR 10 DISTINCT PUZZLES:\n\n");
 
-        // Now run the program for 10 puzzles
         for (int i = 0; i < 10; i ++ ){
             PuzzleTree tempTreeWidth2 = new PuzzleTree(2);
             PuzzleTree tempTreeWidth3 = new PuzzleTree(3);
@@ -297,6 +298,41 @@ public class PuzzleTree {
             System.out.println("\n==================================================\n\n");
 
         }
+
+        // Now run the program for 100 puzzles
+
+        System.out.println("\n==================================================\n\n");
+        System.out.println("NOW SOLVE FOR 100 DISTINCT PUZZLES:\n\n");
+
+        for (int i = 0; i < 100; i ++ ){
+            Puzzle tempPuzzle = new Puzzle();
+            tempPuzzle.puzzleGenerator();
+
+            PuzzleTree tempTreeWidth2 = new PuzzleTree(2);
+            PuzzleTree tempTreeWidth3 = new PuzzleTree(3);
+
+            tempTreeWidth2.getRoot().copy(tempPuzzle);
+            tempTreeWidth3.getRoot().copy(tempPuzzle);
+
+            tempTreeWidth2.generateTree();
+            tempTreeWidth3.generateTree();
+
+            // solving 2 trees and saving for each: number of moves and number of closedNodes
+            int tMoveCount1 = tempTreeWidth2.solution().size();
+            int tMoveCount2 = tempTreeWidth3.solution().size();
+
+            int closedNodes1 = tempTreeWidth2.getNodeNum() - tempTreeWidth2.getLeafNum();
+            int closedNodes2 = tempTreeWidth3.getNodeNum() - tempTreeWidth3.getLeafNum();
+
+            // print result
+
+            System.out.println("Solved the following puzzle number " + (i+1) + ":\n\n" + tempPuzzle.toString());
+            System.out.println("\t\t\t\tWIDTH = 2:\t\tWIDTH = 3:\nClosed Nodes\t" + closedNodes1 + "\t\t\t\t"+ closedNodes2 + "\n");
+            System.out.println("Moves\t\t\t" + tMoveCount1 + "\t\t\t\t"+ tMoveCount2 + "\n");
+            System.out.println("\n==================================================\n\n");
+
+        }
+
     }
 
 }
